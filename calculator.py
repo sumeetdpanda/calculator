@@ -4,31 +4,56 @@ root = Tk()
 
 root.title("Simple Calulator")
 
-equation=""
-
 e = Entry(root, width = 35, borderwidth = 5)
 e.grid(row=0, column=0, columnspan=3, padx=10, pady=5)
+
+def button_clear():
+  e.delete(0,END)
+
+def get_number():
+  first_number = e.get()
+  global f_num
+  f_num = int(first_number)
+  e.delete(0,END)
 
 def button_click(number):
   current = e.get()
   e.delete(0,END)
   e.insert(0, str(current) + str(number))
 
-def button_clear():
-  e.delete(0,END)
-
 def button_add():
-    first_number = e.get()
-    global f_num
-    f_num = int(first_number)
-    e.delete(0,END)
+  get_number()
+  global oprtr
+  oprtr = "add"
+
+def button_subtract():
+  get_number()
+  global oprtr
+  oprtr = "subtract"
+
+def button_multiply():
+  get_number()
+  global oprtr
+  oprtr = "multiply"
+
+def button_divide():
+  get_number()
+  global oprtr
+  oprtr = "divide"
 
 def button_equal():
-  # s_num = int(e.get())
   second_number = e.get()
   e.delete(0,END)
-  e.insert(0,f_num + int(second_number))
+  if oprtr == "add":
+    result = f_num + int(second_number)
+  elif oprtr == "subtract":
+    result = f_num - int(second_number)
+  elif oprtr == "multiply":
+    result = f_num * int(second_number)
+  elif oprtr == "divide":
+    result = f_num / int(second_number)
 
+  e.insert(0,result)
 # Define Buttons
 
 button_1 = Button(root, text="1", padx=40, pady=20, command = lambda: button_click(1))
@@ -41,8 +66,13 @@ button_7 = Button(root, text="7", padx=40, pady=20, command = lambda: button_cli
 button_8 = Button(root, text="8", padx=40, pady=20, command = lambda: button_click(8))
 button_9 = Button(root, text="9", padx=40, pady=20, command = lambda: button_click(9))
 button_0 = Button(root, text="0", padx=40, pady=20, command = lambda: button_click(0))
+
 button_add = Button(root, text="+", padx=39, pady=20, command=button_add)
-button_equal = Button(root, text="=", padx=99, pady=20, command=button_equal)
+button_subtract = Button(root, text="-", padx=39, pady=20, command=button_subtract)
+button_multiply = Button(root, text="x", padx=39, pady=20, command=button_multiply)
+button_divide = Button(root, text="/", padx=39, pady=20, command=button_divide)
+
+button_equal = Button(root, text="=", padx=99, pady=20, command =button_equal)
 button_clear = Button(root, text="Clear", padx=87, pady=20, command=button_clear)
 
 
@@ -60,10 +90,14 @@ button_8.grid(row=1, column=1)
 button_9.grid(row=1, column=2)
 
 button_0.grid(row=4, column=0)
-
 button_clear.grid(row=4, column=1, columnspan=2)
-button_add.grid(row=5, column=0)
+
 button_equal.grid(row=5, column=1, columnspan=2)
+button_add.grid(row=5, column=0)
+
+button_subtract.grid(row=6, column=0)
+button_multiply.grid(row=6, column=1)
+button_divide.grid(row=6, column=2)
 
 
 root.mainloop()
